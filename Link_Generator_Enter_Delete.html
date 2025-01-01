@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            margin: 5px;
+        }
+        .linkItem {
+            margin: 5px 0;
+        }
+        .deleteButton {
+            margin-left: 10px;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Link Generator</h1>
+    <div id="inputContainer">
+        <input type="text" class="inputWord" placeholder="Enter word here" onkeydown="handleKeyPress(event)">
+    </div>
+    <button onclick="addInput()">Add Input Field</button>
+    <button onclick="removeInput()">Delete Input Field</button>
+    <div id="linksArea"></div>
+
+    <script>
+        function addInput() {
+            var container = document.getElementById('inputContainer');
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'inputWord';
+            input.placeholder = 'Enter word here';
+            input.onkeydown = handleKeyPress; // Attach key press handler
+            container.appendChild(document.createElement('br'));
+            container.appendChild(input);
+        }
+
+        function removeInput() {
+            var container = document.getElementById('inputContainer');
+            var inputs = container.getElementsByClassName('inputWord');
+            if (inputs.length > 0) {
+                // Remove the last input and its preceding <br> if present
+                if (container.lastChild.tagName === 'INPUT') {
+                    container.removeChild(container.lastChild);
+                }
+                if (container.lastChild.tagName === 'BR') {
+                    container.removeChild(container.lastChild);
+                }
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                generateLink(event.target);
+            }
+        }
+
+        function generateLink(input) {
+            var word = input.value.trim();
+            if (word) {
+                var link = 'https://pump.fun/' + encodeURIComponent(word);
+                var div = document.getElementById('linksArea');
+                
+                var linkItem = document.createElement('div');
+                linkItem.className = 'linkItem';
+
+                var a = document.createElement('a');
+                a.href = link;
+                a.textContent = link;
+                a.target = "_blank";  // Open link in a new tab
+
+                var deleteButton = document.createElement('span');
+                deleteButton.textContent = 'X';
+                deleteButton.className = 'deleteButton';
+                deleteButton.onclick = function() {
+                    div.removeChild(linkItem);
+                };
+
+                linkItem.appendChild(a);
+                linkItem.appendChild(deleteButton);
+                div.appendChild(linkItem);
+
+                input.value = ''; // Clear the input field after link generation
+            }
+        }
+    </script>
+</body>
+</html>
