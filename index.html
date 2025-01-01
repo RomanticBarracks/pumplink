@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +13,21 @@
         }
         .linkItem {
             margin: 5px 0;
+            position: relative; /* 부모 요소 기준 위치 지정 */
         }
         .deleteButton {
             margin-left: 10px;
             color: red;
             cursor: pointer;
+        }
+        .memoInput {
+            position: static; /* 기본 위치로 설정 (자동 정렬) */
+            margin-top: 10px; /* 위쪽 여백 */
+            width: 400px;     /* 입력 칸의 너비 */
+            height: 75px;     /* 입력 칸의 높이 */
+            font-size: 14px;  /* 텍스트 크기 */
+            padding: 5px;     /* 내부 여백 */
+            resize: vertical; /* 세로 방향으로 크기 조절 가능 */
         }
     </style>
 </head>
@@ -84,8 +93,15 @@
                     div.removeChild(linkItem);
                 };
 
+                var memoInput = document.createElement('textarea');
+                memoInput.placeholder = 'Add memo here';
+                memoInput.className = 'memoInput';
+                memoInput.spellcheck = false; // 자동 맞춤법 검사 비활성화
+                memoInput.value = "봇 : \n텔 : \n웹 : \n트 : "; // 기본값 설정
+
                 linkItem.appendChild(a);
                 linkItem.appendChild(deleteButton);
+                linkItem.appendChild(memoInput);
                 div.appendChild(linkItem);
 
                 input.value = ''; // Clear the input field after link generation
