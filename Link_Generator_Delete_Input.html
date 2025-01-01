@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Link Generator</h1>
+    <div id="inputContainer">
+        <input type="text" class="inputWord" placeholder="Enter word here">
+    </div>
+    <button onclick="addInput()">Add Input Field</button>
+    <button onclick="removeInput()">Delete Input Field</button>
+    <button onclick="generateLinks()">Generate Links</button>
+    <div id="linksArea"></div>
+
+    <script>
+        function addInput() {
+            var container = document.getElementById('inputContainer');
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'inputWord';
+            input.placeholder = 'Enter word here';
+            container.appendChild(document.createElement('br'));
+            container.appendChild(input);
+        }
+
+        function removeInput() {
+            var container = document.getElementById('inputContainer');
+            var inputs = container.getElementsByClassName('inputWord');
+            if (inputs.length > 0) {
+                // Remove the last input and its preceding <br> if present
+                if (container.lastChild.tagName === 'INPUT') {
+                    container.removeChild(container.lastChild);
+                }
+                if (container.lastChild.tagName === 'BR') {
+                    container.removeChild(container.lastChild);
+                }
+            }
+        }
+
+        function generateLinks() {
+            var inputs = document.getElementsByClassName('inputWord');
+            var div = document.getElementById('linksArea');
+            div.innerHTML = ''; // Clear previous links
+            for (var i = 0; i < inputs.length; i++) {
+                var word = inputs[i].value.trim();
+                if (word) {
+                    var link = 'https://pump.fun/' + encodeURIComponent(word);
+                    var a = document.createElement('a');
+                    a.href = link;
+                    a.textContent = link;
+                    a.target = "_blank";  // Open link in a new tab
+                    div.appendChild(document.createElement('br')); // New line
+                    div.appendChild(a);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
